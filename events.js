@@ -1,8 +1,41 @@
+/**
+ * @file event handler
+ * @author Zander Koch
+ * @version 1
+ */
 
 /**
+ * adds an event listener of type type to element obj with function fn
+ * @param {EventTarget} obj the target element
+ * @param {String} type the type of event to be added, list on MDN.
+ * @param {Function} fn the function to be added
  * 
- * @param {*} obj 
- * @param {*} type 
- * @param {*} fn 
+ * @author Zander Koch
+ * @version 1.0
  */
-function removeListener(obj, type, fn)
+function addListener(obj, type, fn){
+    if(obj.addEventListener){
+        obj.addEventListener(type,fn,false);
+    }
+    else{
+        obj.attatchEvent("on" + type, fn);
+    }
+}
+
+/**
+ * removes event listener of type type to element obj with function fn
+ * @param {EventTarget} obj the target element
+ * @param {String} type the type of event to be added, list on MDN.
+ * @param {Function} fn the function to be added
+ * 
+ * @author Zander Koch
+ * @version 1.0
+ */
+function removeListener(obj, type, fn){
+    if(obj.removeEventListener){
+        obj.removeEventListener(type,fn,false);
+    }
+    else{
+        obj.detatchEvent("on" + type, fn);
+    }
+}
