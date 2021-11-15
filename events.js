@@ -15,10 +15,10 @@
  */
 function addListener(obj, type, fn){
     if(obj.addEventListener){
-        obj.addEventListener(type,fn,false);
+        obj.addEventListener(type, fn, false);
     }
     else{
-        obj.attatchEvent("on" + type, fn);
+        obj.attachEvent("on" + type, fn);
     }
 }
 
@@ -33,9 +33,9 @@ function addListener(obj, type, fn){
  */
 function removeListener(obj, type, fn){
     if(obj.removeEventListener){
-        obj.removeEventListener(type,fn,false);
+        obj.removeEventListener(type, fn, false);
     }
     else{
-        obj.detatchEvent("on" + type, fn);
+        obj.detachEvent("on" + type, fn);
     }
 }
