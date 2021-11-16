@@ -7,60 +7,69 @@
 ////////////////
 //declarations//
 ////////////////
-/**@type {Number} */
-let dailyRoomCost;
-
 /**@type {Element} */
 let formElem;
 /**@type {Element} */
 let spnTotalCost;
 
 
-
 /////////////
 //functions//
 /////////////
 
-/**
- * get the daily cost of the selected room type.
- * enable or disable relevant elements
- * @returns price of currently selected room
+/***
+ * validates the entered campaign code
  * @version 1.0
  */
-//I'm aware this doesn't follow SRP but i don't think it's worth writing two 
-//functions in such a small project
-function checkRoomSelect(){
-    if(formElem.roomType[0].checked){
-        formElem.persons.disabled = true;
-        formElem.persons.parentNode.style.color = "#999"
-        formElem.addition[2].disabled = false;
+function validateCampaignCode(){
 
-        dailyRoomCost = parseInt(formElem.roomType.value.split(",")[1]);
-    }
-    else if(formElem.roomType[1].checked){
-        formElem.persons.disabled = true;
-        formElem.persons.parentNode.style.color = "#999"
-        formElem.addition[2].disabled = false;
-        dailyRoomCost = parseInt(formElem.roomType.value.split(",")[1]);
-    }
-    else if(formElem.roomType[2].checked){
-        formElem.persons.disabled = false;
-        formElem.persons.parentNode.style.color = "#000"
-        formElem.addition[2].disabled = true;
-        formElem.addition[2].checked = false;
-        formElem.addition[2].parentNode.style.color = "#999"
-        dailyRoomCost = parseInt(formElem.roomType.value.split(",")[1]);
-    }
-    console.log("dailyRoomCost: " + dailyRoomCost) //debug
 }
 
 /**
- * calculates the total cost of a planned stay at the hotel
- * @returns {Number}
+ * checks if the user selected a family room and updates form appropriatley
+ * @version 1.0
+ */
+function checkIfFamilyRoom(){
+    if(formElem.roomType[2].checked == true){
+        formElem.persons.disabled = false;
+        formElem.persons.parentNode.style.color = "#000"
+        
+        formElem.addition[2].disabled = true;
+        formElem.addition[2].checked = false;
+        formElem.addition[2].parentNode.style.color = "#999"
+    }
+    else{
+        formElem.persons.disabled = true;
+        formElem.persons.parentNode.style.color = "#999"
+
+        formElem.addition[2].disabled = false;
+        formElem.addition[2].parentNode.style.color = "#000"
+    }
+}
+
+/**
+ * calculates the total cost of a planned stay at the hotel and displays it
  * @version 1.0
  */
 function calculateTotalCost(){
+    let dailyRoomCost = 0;
+    for(room of formElem.roomType){
+        if (room.checked == true) {
+            console.log(room);
+            dailyRoomCost = parseInt(room.value.split(",")[1]);
+        }
+    }
+    
+    let dailyExtrasCost = 0;
+    for(extra of formElem.addition){
+        if(extra.checked){
+            dailyExtrasCost += parseInt(extra.value.split(",")[1]);
+        }
+    }
 
+    let stayDuration = parseInt(formElem.nights.value);
+
+    spnTotalCost.innerHTML = (dailyExtrasCost + dailyRoomCost) * stayDuration;
 }
 
 /**
@@ -74,9 +83,15 @@ function main(){
 
     //adding event listeners
     for(element of formElem.roomType){
-        console.log(element) //debug
-        addListener(element, "click", checkRoomSelect);
+        addListener(element, "click", checkIfFamilyRoom);
     }
+    for(element of formElem.addition){
+        addListener(element, "click", calculateTotalCost);
+    }
+    addListener(formElem.nights, "change", calculateTotalCost);
+    
+    checkIfFamilyRoom();
+    calculateTotalCost();
 }
 
-main();
+addListener(window, "load", main())
