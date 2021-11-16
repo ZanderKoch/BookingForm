@@ -11,7 +11,11 @@
 let dailyRoomCost;
 
 /**@type {Element} */
-let formElem
+let formElem;
+/**@type {Element} */
+let spnTotalCost;
+
+
 
 /////////////
 //functions//
@@ -28,21 +32,35 @@ let formElem
 function checkRoomSelect(){
     if(formElem.roomType[0].checked){
         formElem.persons.disabled = true;
+        formElem.persons.parentNode.style.color = "#999"
         formElem.addition[2].disabled = false;
-        dailyRoomCost = formElem.roomType.value.split(",")[1];
+
+        dailyRoomCost = parseInt(formElem.roomType.value.split(",")[1]);
     }
     else if(formElem.roomType[1].checked){
         formElem.persons.disabled = true;
+        formElem.persons.parentNode.style.color = "#999"
         formElem.addition[2].disabled = false;
-        dailyRoomCost = formElem.roomType.value.split(",")[1];
+        dailyRoomCost = parseInt(formElem.roomType.value.split(",")[1]);
     }
     else if(formElem.roomType[2].checked){
         formElem.persons.disabled = false;
+        formElem.persons.parentNode.style.color = "#000"
         formElem.addition[2].disabled = true;
         formElem.addition[2].checked = false;
+        formElem.addition[2].parentNode.style.color = "#999"
         dailyRoomCost = parseInt(formElem.roomType.value.split(",")[1]);
     }
     console.log("dailyRoomCost: " + dailyRoomCost) //debug
+}
+
+/**
+ * calculates the total cost of a planned stay at the hotel
+ * @returns {Number}
+ * @version 1.0
+ */
+function calculateTotalCost(){
+
 }
 
 /**
@@ -52,7 +70,7 @@ function main(){
     //initializing reference to form
     formElem = document.querySelector("#booking");
     //initialising reference to 
-    let spnTotalCost = document.querySelector("#totalCost");
+    spnTotalCost = document.querySelector("#totalCost");
 
     //adding event listeners
     for(element of formElem.roomType){
