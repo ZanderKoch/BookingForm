@@ -22,6 +22,13 @@ let spnTotalCost;
  * @version 1.0
  */
 function validateCampaignCode(){
+    let re = /^[0-9]{3}[\s]?[0-9]{2}$/i;
+    if (re.test(formElem.campaigncode.value)) {
+        formElem.campaigncode.style.backgroundColor = "#0f0";
+    } else {
+        formElem.campaigncode.style.backgroundColor = "#f00";
+    }
+}
 
 }
 
@@ -89,6 +96,8 @@ function main(){
         addListener(element, "click", calculateTotalCost);
     }
     addListener(formElem.nights, "change", calculateTotalCost);
+
+    addListener(formElem.campaigncode, "input", validateCampaignCode)
     
     checkIfFamilyRoom();
     calculateTotalCost();
