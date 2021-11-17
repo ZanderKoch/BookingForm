@@ -22,7 +22,7 @@ let spnTotalCost;
  * @version 1.0
  */
 function validateCampaignCode(){
-    let re = /^[0-9]{3}[\s]?[0-9]{2}$/i;
+    let re = /^[a-zA-Z]{3}[-][\d]{2}[-][a-zA-Z\d]{2}$/i;
     if (re.test(formElem.campaigncode.value)) {
         formElem.campaigncode.style.backgroundColor = "#0f0";
     } else {
@@ -30,6 +30,30 @@ function validateCampaignCode(){
     }
 }
 
+/***
+ * validates the entered zipcode
+ * @version 1.0
+ */
+ function validateZipcode(){
+    let re = /^[0-9]{3}\s?[0-9]{2}$/i;
+    if (re.test(formElem.zipcode.value)) {
+        formElem.telephone.style.backgroundColor = "#0f0";
+    } else {
+        formElem.telephone.style.backgroundColor = "#f00";
+    }
+}
+
+/***
+ * validates the entered phone number
+ * @version 1.0
+ */
+ function validatePhoneNumber(){
+    let re = /^0[0-9]{1,3}\s?[0-9]{5,7}$/i;
+    if (re.test(formElem.telephone.value)) {
+        formElem.telephone.style.backgroundColor = "#0f0";
+    } else {
+        formElem.telephone.style.backgroundColor = "#f00";
+    }
 }
 
 /**
